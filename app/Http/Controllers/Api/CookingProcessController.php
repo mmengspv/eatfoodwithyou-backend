@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CookingProcessRequest;
+use App\Http\Resources\CookingProcessResource;
 use App\Models\CookingProcess;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -18,7 +20,7 @@ class CookingProcessController extends Controller
     public function index()
     {
         $cookingProcess = CookingProcess::get();
-        return $cookingProcess;
+        return CookingProcessResource::collection($cookingProcess);
     }
 
     /**
@@ -39,7 +41,7 @@ class CookingProcessController extends Controller
             $cookingProcess->photo = $name;
         }
         $cookingProcess->save();
-        return $cookingProcess;
+        return new CookingProcessResource($cookingProcess) ;
     }
 
     /**
@@ -51,7 +53,7 @@ class CookingProcessController extends Controller
     public function show($id)
     {
         $cookingProcess = CookingProcess::findOrFail($id);
-        return $cookingProcess;
+        return new CookingProcessResource($cookingProcess) ;
     }
 
     /**
@@ -61,7 +63,7 @@ class CookingProcessController extends Controller
      * @param  \App\Models\CookingProcess  $cookingProcess
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CookingProcessRequest $request, $id)
     {
         $cookingProcess = CookingProcess::findOrFail($id);
         if ($request->input('process') != null)
@@ -78,7 +80,7 @@ class CookingProcessController extends Controller
             $cookingProcess->photo = $name;
         }
         $cookingProcess->save();
-        return $cookingProcess;
+        return new CookingProcessResource($cookingProcess) ;
     }
 
     /**
@@ -91,6 +93,6 @@ class CookingProcessController extends Controller
     {
         $cookingProcess = CookingProcess::findOrFail($id);
         $cookingProcess->delete();
-        return $cookingProcess;
+        return new CookingProcessResource($cookingProcess) ;
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\FoodRecipeRequest;
+use App\Http\Resources\FoodRecipeResource;
 use App\Models\FoodRecipe;
 use Carbon\Carbon;
 
@@ -19,7 +21,7 @@ class FoodRecipeController extends Controller
     public function index()
     {
         $foodRecipes = FoodRecipe::with('ingredients','cookingProcesses')->get();
-        return $foodRecipes;
+        return FoodRecipeResource::collection($foodRecipes);
     }
 
     /**
@@ -28,7 +30,7 @@ class FoodRecipeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(FoodRecipeRequest $request)
     {
         $foodRecipe = new FoodRecipe();
         $foodRecipe->name = $request->input('name');
@@ -41,7 +43,7 @@ class FoodRecipeController extends Controller
             $foodRecipe->photo = $name;
         }
         $foodRecipe->save();
-        return $foodRecipe;
+        return new FoodRecipeResource($foodRecipe);
     }
 
     /**
@@ -53,7 +55,7 @@ class FoodRecipeController extends Controller
     public function show($id)
     {
         $foodRecipe = FoodRecipe::with('ingredients','cookingProcesses')->findOrFail($id);
-        return $foodRecipe;
+        return new FoodRecipeResource($foodRecipe);
     }
 
     /**
@@ -63,7 +65,7 @@ class FoodRecipeController extends Controller
      * @param  \App\Models\FoodRecipe  $foodRecipe
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(FoodRecipeRequest $request, $id)
     {
         $foodRecipe = FoodRecipe::with('ingredients','cookingProcesses')->findOrFail($id);
         if ($request->input('name')!= null)
@@ -82,7 +84,7 @@ class FoodRecipeController extends Controller
             $foodRecipe->photo = $name;
         }
         $foodRecipe->save();
-        return $foodRecipe;
+        return new FoodRecipeResource($foodRecipe);
     }
 
     /**
@@ -95,6 +97,11 @@ class FoodRecipeController extends Controller
     {
         $foodRecipe = FoodRecipe::findOrFail($id);
         $foodRecipe->delete();
-        return $foodRecipe;
+        return new FoodRecipeResource($foodRecipe);
+    }
+
+    public function searchFoodRecipes(FoodRecipeRequest $request,$name){
+        $foodRecipe = FoodRecipe::where('name','LIKE',"%{$name}%")->with('ingredients','cookingProcesses')->get();
+        return FoodRecipeResource::collection($foodRecipe);
     }
 }

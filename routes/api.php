@@ -19,5 +19,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('recipes',\App\Http\Controllers\Api\FoodRecipeController::class);
+Route::get('recipes/search/{name}',[\App\Http\Controllers\Api\FoodRecipeController::class,'searchFoodRecipes'])->name('recipes.search');
 Route::apiResource('ingredients',\App\Http\Controllers\Api\IngredientController::class);
 Route::apiResource('processes',\App\Http\Controllers\Api\CookingProcessController::class);
