@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\IngredientRequest;
+use App\Http\Resources\IngredientResource;
 use App\Models\Ingredient;
 use Illuminate\Http\Request;
 
@@ -16,7 +18,7 @@ class IngredientController extends Controller
     public function index()
     {
         $ingredient = Ingredient::get();
-        return $ingredient;
+        return IngredientResource::collection($ingredient);
     }
 
     /**
@@ -25,7 +27,7 @@ class IngredientController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(IngredientRequest $request)
     {
         $ingredient = new Ingredient();
         $ingredient->name = $request->input('name');
@@ -33,7 +35,7 @@ class IngredientController extends Controller
         $ingredient->food_recipe_id = $request->input('food_recipe_id');
         $ingredient->unit = $request->input('unit');
         $ingredient->save();
-        return $ingredient;
+        return new IngredientResource($ingredient);
     }
 
     /**
@@ -45,7 +47,7 @@ class IngredientController extends Controller
     public function show(Ingredient $ingredient)
     {
 
-        return $ingredient;
+        return new IngredientResource($ingredient);
     }
 
     /**
@@ -55,7 +57,7 @@ class IngredientController extends Controller
      * @param  \App\Models\Ingredient  $ingredient
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Ingredient $ingredient)
+    public function update(IngredientRequest $request, Ingredient $ingredient)
     {
         if($request->input('name') != null)
             $ingredient->name = $request->input('name');
@@ -64,7 +66,7 @@ class IngredientController extends Controller
         if($request->input('unit') != null)
             $ingredient->unit = $request->input('unit');
         $ingredient->save();
-        return $ingredient;
+        return new IngredientResource($ingredient);
     }
 
     /**
@@ -76,6 +78,6 @@ class IngredientController extends Controller
     public function destroy(Ingredient $ingredient)
     {
         $ingredient->delete();
-        return $ingredient;
+        return new IngredientResource($ingredient);
     }
 }
