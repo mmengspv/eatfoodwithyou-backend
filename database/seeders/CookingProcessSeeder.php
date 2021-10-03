@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\CookingProcess;
 use Illuminate\Database\Seeder;
 
 class CookingProcessSeeder extends Seeder
@@ -13,6 +14,6 @@ class CookingProcessSeeder extends Seeder
      */
     public function run()
     {
-        //
+        CookingProcess::factory(30)->create();
     }
 }

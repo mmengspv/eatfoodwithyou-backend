@@ -12,6 +12,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    public static $role_types = ['ADMIN', 'USER'];
+    public static $gender_types = ['MALE', 'FEMALE'];
     /**
      * The attributes that are mass assignable.
      *

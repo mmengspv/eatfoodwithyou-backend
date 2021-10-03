@@ -22,7 +22,9 @@ class IngredientFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->firstName(),
+            'quantity' => $this->faker->numberBetween(1,10),
+            'unit' => $this->faker->lastName(),
         ];
     }
 }
