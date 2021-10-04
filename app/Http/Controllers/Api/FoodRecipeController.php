@@ -18,6 +18,11 @@ class FoodRecipeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public  function __construct() {
+        $this->middleware('auth:api', ['except' => ['index' , 'show']]) ;
+    }
+
     public function index()
     {
         $foodRecipes = FoodRecipe::with('ingredients','cookingProcesses')->get();
