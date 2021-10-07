@@ -43,7 +43,44 @@ class FoodRecipeController extends Controller
             $foodRecipe->photo = $name;
         }
         $foodRecipe->save();
+
+
+        $catagorys = trim($request->input('catagorys'));
+        $this->updateCatagoryFoodRecipe($foodRecipe, $catagorys);
+        
+        // if($catagorys){
+        //     $catagory_array = [];
+        //     $catagorys = explode(",", $catagorys);
+        //     foreach($catagorys as $catagory_name){
+        //         $catagory_name = trim($catagory_name);
+        //         if($catagory_name){
+        //             $catagory = Catagory::firstOrCreate(['name' => $catagory_name]);
+        //             array_push($catagory_array, $catagory->id);
+
+        //         }
+                
+        //     }
+        //     $foodRecipe->catagorys()->sync($catagory_array);
+        // }
         return new FoodRecipeResource($foodRecipe);
+    }
+
+    private function updateCatagoryFoodRecipe($foodRecipe, $catagoryWithComma){
+        if($catagoryWithComma){
+            $catagory_array = [];
+            $catagorys = explode(",", $catagorys);
+            foreach($catagorys as $catagory_name){
+                $catagory_name = trim($catagory_name);
+                if($catagory_name){
+                    $catagory = Catagory::firstOrCreate(['name' => $catagory_name]);
+                    array_push($catagory_array, $catagory->id);
+
+                }
+                
+            }
+            $foodRecipe->catagorys()->sync($catagory_array);
+        }
+
     }
 
     /**
@@ -84,6 +121,10 @@ class FoodRecipeController extends Controller
             $foodRecipe->photo = $name;
         }
         $foodRecipe->save();
+
+        $catagorys = trim($request->input('catagorys'));
+        $this->updateCatagoryFoodRecipe($foodRecipe, $catagorys);
+
         return new FoodRecipeResource($foodRecipe);
     }
 
