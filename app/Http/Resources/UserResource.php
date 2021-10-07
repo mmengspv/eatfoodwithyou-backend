@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CookingProcessResource extends JsonResource
+class UserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,7 +14,6 @@ class CookingProcessResource extends JsonResource
      */
     public function toArray($request)
     {
-        return array_merge(parent::toArray($request),
-            ['photo_url' => env('APP_URL').':8000'.'/storage'.'/cookingProcess'.$this->photo]);
+        return parent::toArray($request);
     }
 }

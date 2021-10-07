@@ -10,7 +10,9 @@ class FoodRecipe extends Model
 {
     use HasFactory,SoftDeletes;
 
+
     protected $appends = ['category_names'];
+
 
     public function ingredients(){
         return $this->hasMany(Ingredient::class);
