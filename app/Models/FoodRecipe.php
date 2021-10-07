@@ -9,6 +9,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class FoodRecipe extends Model
 {
     use HasFactory,SoftDeletes;
+
+
+    protected $appends = ['category_names'];
+
+
     public function ingredients(){
         return $this->hasMany(Ingredient::class);
     }
@@ -17,5 +22,13 @@ class FoodRecipe extends Model
     }
     public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    public function categories(){
+        return $this->belongsToMany(Category::class)->withTimestamps();
+    }
+
+    public function getCategoryNamesAttribute(){
+        return implode(", ", $this->categories->pluck('name')->all());
     }
 }
