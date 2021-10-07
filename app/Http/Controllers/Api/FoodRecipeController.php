@@ -20,7 +20,7 @@ class FoodRecipeController extends Controller
      */
 
     public  function __construct() {
-        $this->middleware('auth:api', ['except' => ['index' , 'show']]) ;
+        $this->middleware('auth:api', ['except' => ['index' , 'show','searchFoodRecipes','randomFoodRecipes','randomFoodRecipe']]) ;
     }
 
     public function index()
@@ -43,8 +43,8 @@ class FoodRecipeController extends Controller
         $foodRecipe->detail = $request->input('detail');
         if($request->file('photo') != null) {
             $file = $request->file('photo');
-            $name = '/foodRecipe/' . Carbon::now()->format("dnY-Hisu") . "." . $file->extension();
-            $file->storePubliclyAs('public', $name);
+            $name = Carbon::now()->format("dnY-Hisu") . "." . $file->extension();
+            $file->storePubliclyAs('public/foodRecipe/', $name);
             $foodRecipe->photo = $name;
         }
         $foodRecipe->save();
@@ -117,12 +117,12 @@ class FoodRecipeController extends Controller
         if($request->file('photo') != null) {
             $old_file = $foodRecipe->photo;
             if($old_file != null){
-                $path = public_path().'/storage/'.$old_file;
+                $path = public_path().'/storage/foodRecipe/'.$old_file;
                 File::delete($path);
             }
             $file = $request->file('photo');
-            $name = '/foodRecipe/' . Carbon::now()->format("dnY-Hisu") . "." . $file->extension();
-            $file->storePubliclyAs('public', $name);
+            $name = Carbon::now()->format("dnY-Hisu") . "." . $file->extension();
+            $file->storePubliclyAs('public/foodRecipe/', $name);
             $foodRecipe->photo = $name;
         }
         $foodRecipe->save();
@@ -146,8 +146,18 @@ class FoodRecipeController extends Controller
         return new FoodRecipeResource($foodRecipe);
     }
 
-    public function searchFoodRecipes(FoodRecipeRequest $request,$name){
+    public function searchFoodRecipes($name){
         $foodRecipe = FoodRecipe::where('name','LIKE',"%{$name}%")->with('ingredients','cookingProcesses')->get();
         return FoodRecipeResource::collection($foodRecipe);
+    }
+
+    public function randomFoodRecipes(){
+        $foodRecipes = FoodRecipe::with('ingredients','cookingProcesses')->inRandomOrder()->limit(5)->get();
+        return FoodRecipeResource::collection($foodRecipes);
+    }
+
+    public function randomFoodRecipe(){
+        $foodRecipe = FoodRecipe::with('ingredients','cookingProcesses')->inRandomOrder()->first();
+        return new FoodRecipeResource($foodRecipe);
     }
 }
