@@ -5,12 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Catagory;
 
 class FoodRecipe extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $appends = ['catagory_names'];
+
+
+    protected $appends = ['category_names'];
+
 
     public function ingredients(){
         return $this->hasMany(Ingredient::class);
@@ -22,12 +24,11 @@ class FoodRecipe extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function catagorys(){
-        return $this->belongsToMany(Catagory::class)
-                    ->withTimestamps();
+    public function categories(){
+        return $this->belongsToMany(Category::class)->withTimestamps();
     }
 
-    public function getCatagoryNamesAttribute(){
-        return implode(", ", $this->catagorys->pluck('name')->all());
+    public function getCategoryNamesAttribute(){
+        return implode(", ", $this->categories->pluck('name')->all());
     }
 }

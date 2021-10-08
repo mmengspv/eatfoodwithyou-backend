@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class FoodRecipeResource extends JsonResource
+class CategoryResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,10 +14,9 @@ class FoodRecipeResource extends JsonResource
      */
     public function toArray($request)
     {
-        return array_merge(parent::toArray($request),
-
-            ['photo_url' => env('APP_URL').':8000'.'/storage'.'/foodRecipe/'.$this->photo,
-                'user_name' => $this->user->name]);
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+        ];
     }
-
 }

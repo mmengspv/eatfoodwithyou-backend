@@ -51,7 +51,6 @@ class IngredientController extends Controller
      */
     public function show(Ingredient $ingredient)
     {
-
         return new IngredientResource($ingredient);
     }
 

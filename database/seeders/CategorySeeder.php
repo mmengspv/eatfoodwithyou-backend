@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Catagory;
+use App\Models\Category;
 use Illuminate\Database\Seeder;
 
-class CatagorySeeder extends Seeder
+class CategorySeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +14,6 @@ class CatagorySeeder extends Seeder
      */
     public function run()
     {
-        Catagory::factory(10)->create();
+        Category::factory(10)->create();
     }
 }
