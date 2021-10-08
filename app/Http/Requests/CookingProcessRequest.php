@@ -24,8 +24,7 @@ class CookingProcessRequest extends FormRequest
     public function rules()
     {
         return [
-            'process' => ['require','min:3'],
-            'photo' => ['image','nullable']
+            'process' => ['required','min:3']
         ];
     }
 }

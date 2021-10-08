@@ -18,7 +18,6 @@ class FoodRecipeResource extends JsonResource
 
             ['photo_url' => env('APP_URL').':8000'.'/storage'.'/foodRecipe/'.$this->photo,
                 'user_name' => $this->user->name]);
-
     }
 
 }

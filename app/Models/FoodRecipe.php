@@ -11,7 +11,7 @@ class FoodRecipe extends Model
     use HasFactory,SoftDeletes;
 
 
-    protected $appends = ['category_names'];
+    protected $appends = ['category_names','photo_url'];
 
 
     public function ingredients(){
@@ -30,5 +30,9 @@ class FoodRecipe extends Model
 
     public function getCategoryNamesAttribute(){
         return implode(", ", $this->categories->pluck('name')->all());
+    }
+
+    public function getPhotoUrlAttribute(){
+        return env('APP_URL').':8000'.'/storage'.'/foodRecipe/'.$this->photo;
     }
 }
