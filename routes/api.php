@@ -18,10 +18,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('recipes/randoms',[\App\Http\Controllers\Api\FoodRecipeController::class,'randomFoodRecipes'])->name('recipes.randoms');
+Route::get('recipes/random',[\App\Http\Controllers\Api\FoodRecipeController::class,'randomFoodRecipe'])->name('recipes.random');
 Route::apiResource('recipes',\App\Http\Controllers\Api\FoodRecipeController::class);
 Route::get('recipes/search/{name}',[\App\Http\Controllers\Api\FoodRecipeController::class,'searchFoodRecipes'])->name('recipes.search');
+
 Route::apiResource('ingredients',\App\Http\Controllers\Api\IngredientController::class);
 Route::apiResource('processes',\App\Http\Controllers\Api\CookingProcessController::class);
+
+Route::get('categories/{name}', [\App\Http\Controllers\Api\CategoryController::class, 'showByName'])->name('categories.name');
+Route::apiResource('categories', \App\Http\Controllers\Api\CategoryController::class);
+
+
 
 Route::group([
 

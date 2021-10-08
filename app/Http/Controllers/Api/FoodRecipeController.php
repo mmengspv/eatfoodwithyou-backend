@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FoodRecipeRequest;
 use App\Http\Resources\FoodRecipeResource;
+use App\Models\Category;
 use App\Models\FoodRecipe;
 use Carbon\Carbon;
 
@@ -20,7 +21,7 @@ class FoodRecipeController extends Controller
      */
 
     public  function __construct() {
-        $this->middleware('auth:api', ['except' => ['index' , 'show']]) ;
+        $this->middleware('auth:api', ['except' => ['index' , 'show','searchFoodRecipes','randomFoodRecipes','randomFoodRecipe']]) ;
     }
 
     public function index()
@@ -43,12 +44,32 @@ class FoodRecipeController extends Controller
         $foodRecipe->detail = $request->input('detail');
         if($request->file('photo') != null) {
             $file = $request->file('photo');
-            $name = '/foodRecipe/' . Carbon::now()->format("dnY-Hisu") . "." . $file->extension();
-            $file->storePubliclyAs('public', $name);
+            $name = Carbon::now()->format("dnY-Hisu") . "." . $file->extension();
+            $file->storePubliclyAs('public/foodRecipe/', $name);
             $foodRecipe->photo = $name;
         }
         $foodRecipe->save();
+
+        $categories = trim($request->input('categories'));
+        $this->updateCategoryFoodRecipe($foodRecipe, $categories);
+
         return new FoodRecipeResource($foodRecipe);
+    }
+
+    private function updateCategoryFoodRecipe($foodRecipe, $categories_input){
+        if($categories_input){
+            $category_array = [];
+            $categories_input = explode(",", $categories_input);
+            foreach($categories_input as $category_name){
+                $category_name = trim($category_name);
+                if($category_name){
+                    $category = Category::firstOrCreate(['name' => $category_name]);
+                    array_push($category_array, $category->id);
+                }
+            }
+            $foodRecipe->categories()->sync($category_array);
+        }
+
     }
 
     /**
@@ -80,15 +101,19 @@ class FoodRecipeController extends Controller
         if($request->file('photo') != null) {
             $old_file = $foodRecipe->photo;
             if($old_file != null){
-                $path = public_path().'/storage/'.$old_file;
+                $path = public_path().'/storage/foodRecipe/'.$old_file;
                 File::delete($path);
             }
             $file = $request->file('photo');
-            $name = '/foodRecipe/' . Carbon::now()->format("dnY-Hisu") . "." . $file->extension();
-            $file->storePubliclyAs('public', $name);
+            $name = Carbon::now()->format("dnY-Hisu") . "." . $file->extension();
+            $file->storePubliclyAs('public/foodRecipe/', $name);
             $foodRecipe->photo = $name;
         }
         $foodRecipe->save();
+
+        $categories = trim($request->input('categories'));
+        $this->updateCategoryFoodRecipe($foodRecipe, $categories);
+
         return new FoodRecipeResource($foodRecipe);
     }
 
@@ -105,8 +130,18 @@ class FoodRecipeController extends Controller
         return new FoodRecipeResource($foodRecipe);
     }
 
-    public function searchFoodRecipes(FoodRecipeRequest $request,$name){
+    public function searchFoodRecipes($name){
         $foodRecipe = FoodRecipe::where('name','LIKE',"%{$name}%")->with('ingredients','cookingProcesses')->get();
         return FoodRecipeResource::collection($foodRecipe);
+    }
+
+    public function randomFoodRecipes(){
+        $foodRecipes = FoodRecipe::with('ingredients','cookingProcesses')->inRandomOrder()->limit(5)->get();
+        return FoodRecipeResource::collection($foodRecipes);
+    }
+
+    public function randomFoodRecipe(){
+        $foodRecipe = FoodRecipe::with('ingredients','cookingProcesses')->inRandomOrder()->first();
+        return new FoodRecipeResource($foodRecipe);
     }
 }
