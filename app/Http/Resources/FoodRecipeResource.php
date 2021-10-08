@@ -16,7 +16,9 @@ class FoodRecipeResource extends JsonResource
     {
         return array_merge(parent::toArray($request),
             ['photo_url' => env('APP_URL').':8000'.'/storage'.'/foodRecipe/'.$this->photo,
-                'user_name' => $this->user->name]);
+                'user_name' => $this->user->name]
+
+        );
     }
 
 }
