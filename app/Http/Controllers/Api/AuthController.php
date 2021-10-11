@@ -73,8 +73,8 @@ class AuthController extends Controller
     {
         $user = JWTAuth::user();
         $foodrecipe = $user->foodRecipes ;
-        $cookingProcess = $foodrecipe->cookingProcesses;
-        $ingredient = $foodrecipe->ingredients;
+//        $cookingProcess = $foodrecipe->cookingProcesses;
+//        $ingredient = $foodrecipe->ingredients;
         return response()->json($user);
     }
 

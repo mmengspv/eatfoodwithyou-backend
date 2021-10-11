@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FoodRecipeRequest;
 use App\Http\Resources\FoodRecipeResource;
+use App\Models\Category;
 use App\Models\FoodRecipe;
 use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class FoodRecipeController extends Controller
 {
@@ -49,41 +51,24 @@ class FoodRecipeController extends Controller
         }
         $foodRecipe->save();
 
+        $categories = trim($request->input('categories'));
+        $this->updateCategoryFoodRecipe($foodRecipe, $categories);
 
-        $catagorys = trim($request->input('catagorys'));
-        $this->updateCatagoryFoodRecipe($foodRecipe, $catagorys);
-        
-        // if($catagorys){
-        //     $catagory_array = [];
-        //     $catagorys = explode(",", $catagorys);
-        //     foreach($catagorys as $catagory_name){
-        //         $catagory_name = trim($catagory_name);
-        //         if($catagory_name){
-        //             $catagory = Catagory::firstOrCreate(['name' => $catagory_name]);
-        //             array_push($catagory_array, $catagory->id);
-
-        //         }
-                
-        //     }
-        //     $foodRecipe->catagorys()->sync($catagory_array);
-        // }
         return new FoodRecipeResource($foodRecipe);
     }
 
-    private function updateCatagoryFoodRecipe($foodRecipe, $catagoryWithComma){
-        if($catagoryWithComma){
-            $catagory_array = [];
-            $catagorys = explode(",", $catagorys);
-            foreach($catagorys as $catagory_name){
-                $catagory_name = trim($catagory_name);
-                if($catagory_name){
-                    $catagory = Catagory::firstOrCreate(['name' => $catagory_name]);
-                    array_push($catagory_array, $catagory->id);
-
+    private function updateCategoryFoodRecipe($foodRecipe, $categories_input){
+        if($categories_input){
+            $category_array = [];
+            $categories_input = explode(",", $categories_input);
+            foreach($categories_input as $category_name){
+                $category_name = trim($category_name);
+                if($category_name){
+                    $category = Category::firstOrCreate(['name' => $category_name]);
+                    array_push($category_array, $category->id);
                 }
-                
             }
-            $foodRecipe->catagorys()->sync($catagory_array);
+            $foodRecipe->categories()->sync($category_array);
         }
 
     }
@@ -127,8 +112,8 @@ class FoodRecipeController extends Controller
         }
         $foodRecipe->save();
 
-        $catagorys = trim($request->input('catagorys'));
-        $this->updateCatagoryFoodRecipe($foodRecipe, $catagorys);
+        $categories = trim($request->input('categories'));
+        $this->updateCategoryFoodRecipe($foodRecipe, $categories);
 
         return new FoodRecipeResource($foodRecipe);
     }
@@ -144,6 +129,13 @@ class FoodRecipeController extends Controller
         $foodRecipe = FoodRecipe::findOrFail($id);
         $foodRecipe->delete();
         return new FoodRecipeResource($foodRecipe);
+    }
+
+    public function searchFoodRecipeByCategory($category){
+        $food_recipes = FoodRecipe::get()->filter(function ($recipe) use ($category){
+            return Str::contains(Str::lower($recipe->category_names), Str::lower($category));
+        });
+        return $food_recipes;
     }
 
     public function searchFoodRecipes($name){
