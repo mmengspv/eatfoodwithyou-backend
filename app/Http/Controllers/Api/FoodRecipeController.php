@@ -11,6 +11,7 @@ use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class FoodRecipeController extends Controller
 {
@@ -128,6 +129,13 @@ class FoodRecipeController extends Controller
         $foodRecipe = FoodRecipe::findOrFail($id);
         $foodRecipe->delete();
         return new FoodRecipeResource($foodRecipe);
+    }
+
+    public function searchFoodRecipeByCategory($category){
+        $food_recipes = FoodRecipe::get()->filter(function ($recipe) use ($category){
+            return Str::contains(Str::lower($recipe->category_names), Str::lower($category));
+        });
+        return $food_recipes;
     }
 
     public function searchFoodRecipes($name){
