@@ -52,7 +52,7 @@ class FoodRecipeController extends Controller
 
         $catagorys = trim($request->input('catagorys'));
         $this->updateCatagoryFoodRecipe($foodRecipe, $catagorys);
-        
+
         // if($catagorys){
         //     $catagory_array = [];
         //     $catagorys = explode(",", $catagorys);
@@ -63,7 +63,7 @@ class FoodRecipeController extends Controller
         //             array_push($catagory_array, $catagory->id);
 
         //         }
-                
+
         //     }
         //     $foodRecipe->catagorys()->sync($catagory_array);
         // }
@@ -73,7 +73,7 @@ class FoodRecipeController extends Controller
     private function updateCatagoryFoodRecipe($foodRecipe, $catagoryWithComma){
         if($catagoryWithComma){
             $catagory_array = [];
-            $catagorys = explode(",", $catagorys);
+            $catagorys = explode(",", $catagoryWithComma);
             foreach($catagorys as $catagory_name){
                 $catagory_name = trim($catagory_name);
                 if($catagory_name){
@@ -81,7 +81,7 @@ class FoodRecipeController extends Controller
                     array_push($catagory_array, $catagory->id);
 
                 }
-                
+
             }
             $foodRecipe->catagorys()->sync($catagory_array);
         }

@@ -10,7 +10,7 @@ use App\Models\Catagory;
 class FoodRecipe extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $appends = ['catagory_names'];
+    protected $appends = ['catagory_names' , 'user_name'];
 
     public function ingredients(){
         return $this->hasMany(Ingredient::class);
@@ -29,5 +29,9 @@ class FoodRecipe extends Model
 
     public function getCatagoryNamesAttribute(){
         return implode(", ", $this->catagorys->pluck('name')->all());
+    }
+
+    public function getUserNameAttribute(){
+        return $this->user->name ;
     }
 }
