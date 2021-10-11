@@ -26,7 +26,6 @@ class FoodRecipeRequest extends FormRequest
         return [
             'name' => ['required','min:3'],
             'detail'=> ['required','min:5'],
-            'photo' => ['image','nullable']
         ];
     }
 }
