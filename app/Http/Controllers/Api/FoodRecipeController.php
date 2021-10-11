@@ -27,7 +27,7 @@ class FoodRecipeController extends Controller
 
     public function index()
     {
-        $foodRecipes = FoodRecipe::with('ingredients','cookingProcesses')->get();
+        $foodRecipes = FoodRecipe::with('ingredients','cookingProcesses', 'likes')->get();
         return FoodRecipeResource::collection($foodRecipes);
     }
 

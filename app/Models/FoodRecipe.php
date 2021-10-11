@@ -11,7 +11,7 @@ class FoodRecipe extends Model
     use HasFactory,SoftDeletes;
 
 
-    protected $appends = ['category_names','photo_url'];
+    protected $appends = ['category_names','photo_url', 'total_like'];
 
 
     public function ingredients(){
@@ -28,11 +28,23 @@ class FoodRecipe extends Model
         return $this->belongsToMany(Category::class)->withTimestamps();
     }
 
+    public function likes(){
+        return $this->hasMany(Like::class);
+    }
+
+    public function likeUsers(){
+        return $this->belongsToMany(User::class, 'likes')->withPivot('is_like')->withTimestamps();
+    }
+
     public function getCategoryNamesAttribute(){
         return implode(", ", $this->categories->pluck('name')->all());
     }
 
     public function getPhotoUrlAttribute(){
         return env('APP_URL').':8000'.'/storage'.'/foodRecipe/'.$this->photo;
+    }
+
+    public function getTotalLikeAttribute(){
+        return $this->likes->count();
     }
 }
