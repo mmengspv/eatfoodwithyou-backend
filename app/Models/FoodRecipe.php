@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class FoodRecipe extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $appends = ['catagory_names' , 'user_name','photo_url'];
+    protected $appends = ['category_names' , 'photo_url'];
 
     public function ingredients(){
         return $this->hasMany(Ingredient::class);
@@ -33,7 +33,7 @@ class FoodRecipe extends Model
         return env('APP_URL').':8000'.'/storage'.'/foodRecipe/'.$this->photo;
     }
 
-    public function getUserNameAttribute(){
-        return $this->user->name ;
-    }
+    // public function getUserNameAttribute(){
+    //     return $this->user->name ;
+    // }
 }

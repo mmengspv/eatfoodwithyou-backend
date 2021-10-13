@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->integer('age');
             $table->enum('gender',['MALE','FEMALE']);
             $table->enum('role',['ADMIN','USER']);
+//            $table->enum('status',['ACTIVE','BANNED'])->default("ACTIVE");
             $table->rememberToken();
             $table->timestamps();
         });

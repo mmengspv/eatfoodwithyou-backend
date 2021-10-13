@@ -31,7 +31,8 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'age' => $this->faker->numberBetween(15,70),
             'gender' => $this->faker->randomElement($gender_types),
-            'role' => "USER"
+            'role' => "USER",
+//            'status' => "ACTIVE"
         ];
     }
 
