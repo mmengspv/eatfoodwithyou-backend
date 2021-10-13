@@ -9,7 +9,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class FoodRecipe extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $appends = ['category_names' , 'photo_url'];
+
+
+    protected $appends = ['category_names','photo_url', 'total_like'];
+
 
     public function ingredients(){
         return $this->hasMany(Ingredient::class);
@@ -25,6 +28,18 @@ class FoodRecipe extends Model
         return $this->belongsToMany(Category::class)->withTimestamps();
     }
 
+    public function likes(){
+        return $this->hasMany(Like::class);
+    }
+
+    public function comments(){
+        return $this->hasMany(Comment::class);
+    }
+
+    public function likeUsers(){
+        return $this->belongsToMany(User::class, 'likes')->withPivot('is_like')->withTimestamps();
+    }
+
     public function getCategoryNamesAttribute(){
         return implode(", ", $this->categories->pluck('name')->all());
     }
@@ -36,4 +51,7 @@ class FoodRecipe extends Model
     // public function getUserNameAttribute(){
     //     return $this->user->name ;
     // }
+    public function getTotalLikeAttribute(){
+        return $this->likes->count();
+    }
 }

@@ -27,7 +27,7 @@ class FoodRecipeController extends Controller
 
     public function index()
     {
-        $foodRecipes = FoodRecipe::with('ingredients','cookingProcesses')->get();
+        $foodRecipes = FoodRecipe::with('ingredients','cookingProcesses', 'likes')->get();
         return FoodRecipeResource::collection($foodRecipes);
     }
 
@@ -58,8 +58,8 @@ class FoodRecipeController extends Controller
     }
 
     private function updateCategoryFoodRecipe($foodRecipe, $categories_input){
+        $category_array = [];
         if($categories_input){
-            $category_array = [];
             $categories_input = explode(",", $categories_input);
             foreach($categories_input as $category_name){
                 $category_name = trim($category_name);
@@ -68,9 +68,8 @@ class FoodRecipeController extends Controller
                     array_push($category_array, $category->id);
                 }
             }
-            $foodRecipe->categories()->sync($category_array);
         }
-
+        $foodRecipe->categories()->sync($category_array);
     }
 
     /**
