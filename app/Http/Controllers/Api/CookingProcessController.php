@@ -40,8 +40,8 @@ class CookingProcessController extends Controller
         $cookingProcess->food_recipe_id = $request->input('food_recipe_id');
         if($request->file('photo') != null) {
             $file = $request->file('photo');
-            $name = '/cookingProcess/' . Carbon::now()->format("dnY-Hisu") . "." . $file->extension();
-            $file->storePubliclyAs('public', $name);
+            $name = Carbon::now()->format("dnY-Hisu") . "." . $file->extension();
+            $file->storePubliclyAs('public/cookingProcess/', $name);
             $cookingProcess->photo = $name;
         }
         $cookingProcess->save();
@@ -79,8 +79,8 @@ class CookingProcessController extends Controller
                 File::delete($path);
             }
             $file = $request->file('photo');
-            $name = '/cookingProcess/' . Carbon::now()->format("dnY-Hisu") . "." . $file->extension();
-            $file->storePubliclyAs('public', $name);
+            $name = Carbon::now()->format("dnY-Hisu") . "." . $file->extension();
+            $file->storePubliclyAs('public/cookingProcess/', $name);
             $cookingProcess->photo = $name;
         }
         $cookingProcess->save();
