@@ -48,5 +48,6 @@ Route::group([
     Route::get('allUser', [\App\Http\Controllers\Api\AuthController::class, 'index']);
     Route::put('updateStatus/{id}', [\App\Http\Controllers\Api\AuthController::class, 'updateStatus']);
 
+    Route::put('update/{id}', [\App\Http\Controllers\Api\AuthController::class, 'update']);
 
 });
