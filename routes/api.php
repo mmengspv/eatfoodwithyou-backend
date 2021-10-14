@@ -45,5 +45,6 @@ Route::group([
     Route::post('logout', [\App\Http\Controllers\Api\AuthController::class, 'logout']);
     Route::post('refresh', [\App\Http\Controllers\Api\AuthController::class, 'refresh']);
     Route::post('me', [\App\Http\Controllers\Api\AuthController::class, 'me']);
+    Route::put('update/{id}', [\App\Http\Controllers\Api\AuthController::class, 'update']);
 
 });
