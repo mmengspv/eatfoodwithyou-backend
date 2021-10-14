@@ -98,4 +98,17 @@ class AuthController extends Controller
             'user' => auth()->user()
         ]);
     }
+
+    public function update(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $user->name = $request->input('name');
+        $user->age = $request->input('age');
+        $user->gender = $request->input('gender');
+        $user->save();
+
+
+        return $user ;
+    }
 }
