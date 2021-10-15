@@ -19,7 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('likes', \App\Http\Controllers\Api\LikeController::class);
-Route::get('recipes/search/category/{category}', [\App\Http\Controllers\Api\FoodRecipeController::class, 'searchFoodRecipeByCategory'])->name('recipes.category');
+Route::get('recipes/category/{slug}', [\App\Http\Controllers\Api\FoodRecipeController::class, 'searchFoodRecipeByCategory'])->name('recipes.category');
 Route::get('recipes/randoms',[\App\Http\Controllers\Api\FoodRecipeController::class,'randomFoodRecipes'])->name('recipes.randoms');
 Route::get('recipes/random',[\App\Http\Controllers\Api\FoodRecipeController::class,'randomFoodRecipe'])->name('recipes.random');
 Route::apiResource('recipes',\App\Http\Controllers\Api\FoodRecipeController::class);

@@ -130,10 +130,16 @@ class FoodRecipeController extends Controller
         return new FoodRecipeResource($foodRecipe);
     }
 
-    public function searchFoodRecipeByCategory($category){
-        $food_recipes = FoodRecipe::get()->filter(function ($recipe) use ($category){
-            return Str::contains(Str::lower($recipe->category_names), Str::lower($category));
+    public function searchFoodRecipeByCategory($slug){
+        $slug = collect(explode(',', $slug));
+        $slug = $slug->map(function ($item){
+            return trim($item);
         });
+
+        $food_recipes = FoodRecipe::whereHas('categories', function ($q) use ($slug){
+            $q->whereIn('categories.name', $slug);
+        })->get();
+
         return $food_recipes;
     }
 
