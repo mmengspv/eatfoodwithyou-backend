@@ -24,6 +24,7 @@ class UserSeeder extends Seeder
         $admin->age = "20";
         $admin->gender = "MALE";
         $admin->role = "ADMIN";
+//        $admin->status = "ACTIVE";
         $admin->save();
 
         User::factory(5)->create();

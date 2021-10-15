@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\FoodRecipeRequest;
 use App\Http\Resources\FoodRecipeResource;
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\FoodRecipe;
 use Carbon\Carbon;
 
@@ -27,7 +28,7 @@ class FoodRecipeController extends Controller
 
     public function index()
     {
-        $foodRecipes = FoodRecipe::with('ingredients','cookingProcesses', 'likes')->get();
+        $foodRecipes = FoodRecipe::with('ingredients','cookingProcesses', 'likes' , 'comments' , )->get();
         return FoodRecipeResource::collection($foodRecipes);
     }
 
@@ -80,8 +81,12 @@ class FoodRecipeController extends Controller
      */
     public function show($id)
     {
-        $foodRecipe = FoodRecipe::with('ingredients','cookingProcesses')->findOrFail($id);
-        return new FoodRecipeResource($foodRecipe);
+        $foodRecipe = FoodRecipe::with('ingredients','cookingProcesses' )->findOrFail($id);
+
+
+//        ddd($comment);
+        return new FoodRecipeResource($foodRecipe) ;
+
     }
 
     /**

@@ -48,6 +48,9 @@ class FoodRecipe extends Model
         return env('APP_URL').':8000'.'/storage'.'/foodRecipe/'.$this->photo;
     }
 
+    // public function getUserNameAttribute(){
+    //     return $this->user->name ;
+    // }
     public function getTotalLikeAttribute(){
         return $this->likes->count();
     }

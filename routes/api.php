@@ -30,6 +30,9 @@ Route::apiResource('processes',\App\Http\Controllers\Api\CookingProcessControlle
 
 Route::get('categories/{name}', [\App\Http\Controllers\Api\CategoryController::class, 'showByName'])->name('categories.name');
 Route::apiResource('categories', \App\Http\Controllers\Api\CategoryController::class);
+Route::apiResource('comments',\App\Http\Controllers\Api\CommentController::class);
+Route::put('comments/{id}',[\App\Http\Controllers\Api\CommentController::class , 'update']);
+Route::get('recipe/comments/{id}',[\App\Http\Controllers\Api\CommentController::class , 'findByRecipeid']);
 
 
 
@@ -45,6 +48,9 @@ Route::group([
     Route::post('logout', [\App\Http\Controllers\Api\AuthController::class, 'logout']);
     Route::post('refresh', [\App\Http\Controllers\Api\AuthController::class, 'refresh']);
     Route::post('me', [\App\Http\Controllers\Api\AuthController::class, 'me']);
+    Route::get('allUser', [\App\Http\Controllers\Api\AuthController::class, 'index']);
+    Route::put('updateStatus/{id}', [\App\Http\Controllers\Api\AuthController::class, 'updateStatus']);
+
     Route::put('update/{id}', [\App\Http\Controllers\Api\AuthController::class, 'update']);
 
 });

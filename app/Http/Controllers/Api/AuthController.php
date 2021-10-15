@@ -26,7 +26,7 @@ class AuthController extends Controller
         }
 
         if (! $token = JWTAuth::attempt($validator->validated())) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => 'Wrong EMAIL OR PASSWORD'], 401);
         }
 
         return $this->respondWithToken($token);
@@ -62,6 +62,7 @@ class AuthController extends Controller
         $user->gender = $request->input('gender');
         $user->role = $request->input('role');
         $user->password = bcrypt($request->password);
+//        $user->status = $request->input('status') ;
         $user->save() ;
 
         return response()->json([
@@ -77,6 +78,21 @@ class AuthController extends Controller
 //        $ingredient = $foodrecipe->ingredients;
         return response()->json($user);
     }
+
+    public function index ()
+    {
+        $user = User::where('role','USER')->get();
+        return $user ;
+    }
+
+    public function updateStatus (Request $request, $id)
+    {
+        $user = User::findOrFail($id) ;
+        $user->status = $request->input("status") ;
+        $user->save() ;
+        return $user ;
+    }
+
 
     public function logout()
     {
