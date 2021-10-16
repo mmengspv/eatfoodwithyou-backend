@@ -154,7 +154,7 @@ class FoodRecipeController extends Controller
     }
 
     public function randomFoodRecipes(){
-        $foodRecipes = FoodRecipe::with('ingredients','cookingProcesses')->inRandomOrder()->limit(5)->get();
+        $foodRecipes = FoodRecipe::with('ingredients','cookingProcesses')->inRandomOrder()->limit(4)->get();
         return FoodRecipeResource::collection($foodRecipes);
     }
 
