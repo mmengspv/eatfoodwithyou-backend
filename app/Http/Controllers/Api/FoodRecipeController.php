@@ -141,7 +141,7 @@ class FoodRecipeController extends Controller
             return trim($item);
         });
 
-        $food_recipes = FoodRecipe::whereHas('categories', function ($q) use ($slug){
+        $food_recipes = FoodRecipe::with('user')->whereHas('categories', function ($q) use ($slug){
             $q->whereIn('categories.name', $slug);
         })->get();
 
