@@ -30,9 +30,12 @@ Route::apiResource('processes',\App\Http\Controllers\Api\CookingProcessControlle
 
 Route::get('categories/{name}', [\App\Http\Controllers\Api\CategoryController::class, 'showByName'])->name('categories.name');
 Route::apiResource('categories', \App\Http\Controllers\Api\CategoryController::class);
+
+
 Route::apiResource('comments',\App\Http\Controllers\Api\CommentController::class);
 Route::put('comments/{id}',[\App\Http\Controllers\Api\CommentController::class , 'update']);
 Route::get('recipe/comments/{id}',[\App\Http\Controllers\Api\CommentController::class , 'findByRecipeid']);
+
 
 
 

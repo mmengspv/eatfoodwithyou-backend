@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use App\Http\Resources\CommentResource;
 
 class CommentController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -27,7 +29,12 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $comment = new Comment();
+        $comment->user_id = $request->input('user_id');
+        $comment->food_recipe_id = $request->input('food_recipe_id');
+        $comment->isComment = $request->input('isComment');
+        $comment->save();
+        return new CommentResource($comment);
     }
 
     /**
@@ -65,7 +72,8 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        //
+        $comment->delete();
+        return $comment;
     }
 
     public function findByRecipeid($id)
