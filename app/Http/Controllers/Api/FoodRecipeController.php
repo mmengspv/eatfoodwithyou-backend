@@ -23,7 +23,8 @@ class FoodRecipeController extends Controller
      */
 
     public  function __construct() {
-        $this->middleware('auth:api', ['except' => ['index' , 'show','searchFoodRecipes','randomFoodRecipes','randomFoodRecipe','searchFoodRecipeByCategory']]) ;
+
+        $this->middleware('auth:api', ['except' => ['index' , 'show','searchFoodRecipes','randomFoodRecipes','randomFoodRecipe', 'searchFoodRecipeByCategory']]) ;
     }
 
     public function index()
@@ -141,7 +142,7 @@ class FoodRecipeController extends Controller
             return trim($item);
         });
 
-        $food_recipes = FoodRecipe::whereHas('categories', function ($q) use ($slug){
+        $food_recipes = FoodRecipe::with('user')->whereHas('categories', function ($q) use ($slug){
             $q->whereIn('categories.name', $slug);
         })->get();
 
@@ -154,7 +155,7 @@ class FoodRecipeController extends Controller
     }
 
     public function randomFoodRecipes(){
-        $foodRecipes = FoodRecipe::with('ingredients','cookingProcesses')->inRandomOrder()->limit(5)->get();
+        $foodRecipes = FoodRecipe::with('ingredients','cookingProcesses')->inRandomOrder()->limit(4)->get();
         return FoodRecipeResource::collection($foodRecipes);
     }
 

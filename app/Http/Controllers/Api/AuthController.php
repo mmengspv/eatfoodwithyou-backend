@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
+    public $loginAfterSignUp = true ;
     public function __construct()
     {
         $this->middleware('auth:api', ['except' => ['login' , 'register']]);
@@ -36,13 +38,13 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|between:2,100',
             'email' => 'required|string|email|max:100|unique:users',
-            'password' => 'required|string|min:8',
+            'password' => 'required|string|min:6',
             'age' => 'required|integer' ,
 
         ]);
 
         if($validator->fails()){
-            return response()->json($validator->errors()->toJson(), 400);
+            return response()->json($validator->errors(), 400);
         }
 
 //        $user = User::create(
@@ -64,11 +66,21 @@ class AuthController extends Controller
         $user->password = bcrypt($request->password);
 //        $user->status = $request->input('status') ;
         $user->save() ;
+        auth()->login($user);
+        $token = JWTAuth::fromUser($user);
 
-        return response()->json([
-            'message' => 'User successfully registered',
-            'user' => $user
-        ], 201);
+        return $this->respondWithToken($token) ;
+        //        return response()->json([
+//            'message' => 'User successfully registered',
+//            'user' => $user ,
+//            'jwt' => $token
+//        ], 201);
+
+
+//        return $this->respondWithToken($token)-> json([
+//            'message' => 'User successfully registered',
+//            'user' => $user
+//        ], 201);
     }
     public function me(Request $request)
     {
