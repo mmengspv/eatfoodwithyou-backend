@@ -17,6 +17,6 @@ class FoodRecipeSeeder extends Seeder
     public function run()
     {
         FoodRecipe::factory(2)->hasIngredients(4)->hasCookingProcesses(4)->hasLikes(2)->hasComments(2)->create();
-        FoodRecipe::factory(10)->hasIngredients(3)->hasCookingProcesses(5)->create();
+//        FoodRecipe::factory(10)->hasIngredients(3)->hasCookingProcesses(5)->create();
     }
 }
