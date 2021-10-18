@@ -8,6 +8,7 @@ use App\Models\FoodRecipe;
 
 class CatagoryController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +20,7 @@ class CatagoryController extends Controller
         return Catagory::collection($catagorys);
     }
 
-   
+
 
     /**
      * Show the form for creating a new resource.

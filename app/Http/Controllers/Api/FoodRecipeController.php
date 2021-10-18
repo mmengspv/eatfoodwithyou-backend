@@ -23,6 +23,7 @@ class FoodRecipeController extends Controller
      */
 
     public  function __construct() {
+
         $this->middleware('auth:api', ['except' => ['index' , 'show','searchFoodRecipes','randomFoodRecipes','randomFoodRecipe', 'searchFoodRecipeByCategory']]) ;
     }
 

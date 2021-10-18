@@ -26,7 +26,7 @@ class IngredientRequest extends FormRequest
         return [
             'name' => ['required','min:3'],
             'unit' => ['required','min:1'],
-            'quantity' => ['required','integer','min:1']
+            'quantity' => ['required','numeric','between:0,99999.9999']
         ];
     }
 }
