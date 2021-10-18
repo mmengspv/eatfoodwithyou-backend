@@ -14,7 +14,6 @@ class CommentSeeder extends Seeder
      */
     public function run()
     {
-        Comment::factory(10)->create();
-
+        Comment::factory(20)->hasFoodRecipe(1)->create();
     }
 }

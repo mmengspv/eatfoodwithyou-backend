@@ -14,6 +14,6 @@ class CookingProcessSeeder extends Seeder
      */
     public function run()
     {
-        CookingProcess::factory(30)->create();
+        CookingProcess::factory(10)->create();
     }
 }

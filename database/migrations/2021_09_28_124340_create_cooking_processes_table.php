@@ -15,7 +15,7 @@ class CreateCookingProcessesTable extends Migration
     {
         Schema::create('cooking_processes', function (Blueprint $table) {
             $table->id();
-            $table->string('process');
+            $table->longText('process');
             $table->foreignIdFor(\App\Models\FoodRecipe::class);
             $table->string('photo')->nullable();
             $table->timestamps();
