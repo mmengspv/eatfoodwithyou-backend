@@ -28,11 +28,3 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: ${{ secrets.DOCKER_HUB_USERNAME }}/eatfoodwithyou:latest
-      
-    - name: Build Nginx
-      uses: docker/build-push-action@v2
-      with:
-        context: ./tools
-        file: ./tools/nginx.Dockerfile
-        push: true
-        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/nginx-eatfoodwithyou:latest
