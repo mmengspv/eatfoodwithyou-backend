@@ -18,6 +18,7 @@ class CreateCookingProcessesTable extends Migration
             $table->longText('process');
             $table->foreignIdFor(\App\Models\FoodRecipe::class);
             $table->string('photo')->nullable();
+            $table->string('photo_url')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

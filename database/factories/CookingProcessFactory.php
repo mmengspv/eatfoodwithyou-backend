@@ -21,9 +21,11 @@ class CookingProcessFactory extends Factory
      */
     public function definition()
     {
+        $photo = $this->faker->image('public/storage/cookingProcess',640,480, null, false);
         return [
             'process' => $this->faker->realText(30),
-            'photo' => $this->faker->image('public/storage/cookingProcess',640,480, null, false)
+            'photo' => $photo,
+            'photo_url' => env('APP_URL') . "/storage/cookingProcess/" . $photo,
         ];
     }
 }

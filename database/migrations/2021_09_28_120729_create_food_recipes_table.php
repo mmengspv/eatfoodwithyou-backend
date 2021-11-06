@@ -19,6 +19,7 @@ class CreateFoodRecipesTable extends Migration
             $table->string('detail');
             $table->foreignIdFor(\App\Models\User::class);
             $table->string('photo')->nullable();
+            $table->string('photo_url')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

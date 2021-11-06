@@ -50,6 +50,7 @@ class FoodRecipeController extends Controller
             $name = Carbon::now()->format("dnY-Hisu") . "." . $file->extension();
             $file->storePubliclyAs('public/foodRecipe/', $name);
             $foodRecipe->photo = $name;
+            $foodRecipe->photo_url = '/storage/foodRecipe/'. $name;
         }
         $foodRecipe->save();
 
@@ -114,6 +115,7 @@ class FoodRecipeController extends Controller
             $name = Carbon::now()->format("dnY-Hisu") . "." . $file->extension();
             $file->storePubliclyAs('public/foodRecipe/', $name);
             $foodRecipe->photo = $name;
+            $foodRecipe->photo_url = '/storage/foodRecipe/' . $name;
         }
         $foodRecipe->save();
 

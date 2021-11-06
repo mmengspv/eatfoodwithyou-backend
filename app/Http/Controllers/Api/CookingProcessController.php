@@ -43,6 +43,7 @@ class CookingProcessController extends Controller
             $name = Carbon::now()->format("dnY-Hisu") . "." . $file->extension();
             $file->storePubliclyAs('public/cookingProcess/', $name);
             $cookingProcess->photo = $name;
+            $cookingProcess->photo_url = '/storage/cookingProcess/'. $name;
         }
         $cookingProcess->save();
         return new CookingProcessResource($cookingProcess) ;
@@ -82,6 +83,7 @@ class CookingProcessController extends Controller
             $name = Carbon::now()->format("dnY-Hisu") . "." . $file->extension();
             $file->storePubliclyAs('public/cookingProcess/', $name);
             $cookingProcess->photo = $name;
+            $cookingProcess->photo_url = '/storage/cookingProcess/'. $name;
         }
         $cookingProcess->save();
         return new CookingProcessResource($cookingProcess) ;
