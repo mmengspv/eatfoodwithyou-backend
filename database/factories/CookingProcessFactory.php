@@ -25,7 +25,7 @@ class CookingProcessFactory extends Factory
         return [
             'process' => $this->faker->realText(30),
             'photo' => $photo,
-            'photo_url' => env('APP_URL') . "/storage/cookingProcess/" . $photo,
+            'photo_url' => "/storage/cookingProcess/" . $photo,
         ];
     }
 }

@@ -28,7 +28,7 @@ class FoodRecipeFactory extends Factory
             'user_id' => User::factory(),
             'detail' => $this->faker->realText(30),
             'photo' => $photo,
-            'photo_url' => env('APP_URL') . "/storage/foodRecipe/" .$photo,
+            'photo_url' => "/storage/foodRecipe/" .$photo,
         ];
     }
 }
