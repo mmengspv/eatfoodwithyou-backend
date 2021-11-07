@@ -54,7 +54,7 @@ jobs:
         push: true
         tags: |
           ${{ secrets.DOCKER_HUB_USERNAME }}/nginx-eatfoodwithyou-mmeng:latest
-          ${{ secrets.DOCKER_HUB_USERNAME }}/nginx-eatfoodwithyou--mmeng:${{ github.sha }}
+          ${{ secrets.DOCKER_HUB_USERNAME }}/nginx-eatfoodwithyou-mmeng:${{ github.sha }}
   deploy-server:
     runs-on: ubuntu-latest
     needs: [ build-laravel, build-nginx]
